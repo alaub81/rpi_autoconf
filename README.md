@@ -22,6 +22,7 @@ the following features are included:
 *** camera
 
 ## Configuration
+you have to configure all your stuff at the top in `set the variables` section of the script. Just read the inline comments.
 
 ```bash
 ## Pi's setup configuration
