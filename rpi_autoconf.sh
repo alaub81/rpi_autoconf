@@ -43,6 +43,12 @@ BTDISABLE="False"
 HDMIDISABLE="False"
 # Disable Soundcard
 SOUNDDISABLE="False"
+# Minimizie Syslog Messages a little bit
+SYSLOGBLOCK="False"
+# /tmp as tmpfs mounting
+TMPTMPFS="False"
+# tmpfs Size (recommended: 32M for pi zero / 128M for Pi 4)
+TMPFSSIZE="32M"
 
 ## Interface Configuration
 ## 0 Enable / 1 Disable 
@@ -68,6 +74,8 @@ sudo systemctl restart ssh
 echo -e "# Stuff which will running on System Startup" | sudo tee -a /etc/cron.d/autostart
 # Update package lists
 sudo apt update
+# Backup config.txt
+sudo cp /boot/config.txt /boot/config.txt.bak 
 
 # Avahi deinstall
 if [ $AVAHIUNINSTALL == "True" ]; then
@@ -92,6 +100,37 @@ fi
 if [ $SOUNDDISABLE == "True" ]; then
 	sudo systemctl disable alsa-restore.service alsa-state.service
 fi
+# mount tmp as tmpfs
+if [ $TMPTMPFS == "True" ]; then
+	echo -e "\ntmpfs /tmp tmpfs defaults,noatime,nosuid,nodev,noexec,mode=1777,size=$TMPFSSIZE 0 0" | sudo tee -a /etc/fstab
+fi
+# Syslog Blocklist
+if [ $SYSLOGBLOCK == "True" ]; then
+	sudo cp /etc/rsyslog.conf /etc/rsyslog.conf.bak
+	sudo sed -i 's/^*.*;auth,authpriv.none/*.*;cron,auth,authpriv.none/g' /etc/rsyslog.conf
+	sudo sed -i 's/^mail./#mail./g' /etc/rsyslog.conf
+	sudo sed -i 's/^daemon./#daemon./g' /etc/rsyslog.conf
+	sudo sed -i 's/^kern./#kern./g' /etc/rsyslog.conf
+	sudo sed -i 's/^lpr./#lpr./g' /etc/rsyslog.conf
+	sudo sed -i 's/^user./#user./g' /etc/rsyslog.conf
+	sudo sed -i 's/^*.=/#*.=/g' /etc/rsyslog.conf
+	sudo sed -i 's/^\t/#\t/g' /etc/rsyslog.conf
+	sudo tee -a /etc/rsyslog.d/01-blocklist.conf <<EOF
+# Cronjob-Spam umleiten
+if $msg contains "pam_unix(cron:session):" then {
+	stop
+}
+# SSH Login without string
+if $msg contains "Did not receive identification string from" then {
+	stop
+}
+# rngd stop logging
+if $msg contains "rngd" and $msg contains "stats" then {
+	stop
+}
+EOF
+fi
+
 
 # setup raspberry pi
 sudo raspi-config nonint do_hostname $PIHOSTNAME
@@ -113,6 +152,6 @@ sudo apt purge --autoremove -y htop nfs-common ntfs-3g python
 sudo apt dist-upgrade -y
 
 # last, do a reboot
-echo -e "\n\n#########################\n\nAll done!!!\nrecoonect with:\n# ssh root@$PIHOSTNAME"
+echo -e "\n\n#########################\n\nAll done!!!\nreconnect with:\n# ssh root@$PIHOSTNAME"
 sleep 3
 sudo reboot
