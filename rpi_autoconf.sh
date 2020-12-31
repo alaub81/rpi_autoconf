@@ -47,8 +47,8 @@ SOUNDDISABLE="False"
 SYSLOGBLOCK="False"
 # /tmp as tmpfs mounting
 TMPTMPFS="False"
-# tmpfs Size (recommended: 32M for pi zero / 128M for Pi 4)
-TMPFSSIZE="32M"
+# tmpfs Size (recommended: 16M for pi zero / 64M for Pi 4)
+TMPFSSIZE="16M"
 
 ## Interface Configuration
 ## 0 Enable / 1 Disable 
@@ -103,6 +103,7 @@ fi
 # mount tmp as tmpfs
 if [ $TMPTMPFS == "True" ]; then
 	echo -e "\ntmpfs /tmp tmpfs defaults,noatime,nosuid,nodev,noexec,mode=1777,size=$TMPFSSIZE 0 0" | sudo tee -a /etc/fstab
+	echo -e "tmpfs /var/tmp tmpfs defaults,noatime,nosuid,nodev,noexec,mode=1777,size=$TMPFSSIZE 0 0" | sudo tee -a /etc/fstab
 fi
 # Syslog Blocklist
 if [ $SYSLOGBLOCK == "True" ]; then
