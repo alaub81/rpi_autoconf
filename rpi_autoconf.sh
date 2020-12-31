@@ -132,7 +132,7 @@ if $msg contains "Did not receive identification string from" then {
 	stop
 }
 # rngd stop logging
-if $msg contains "rngd" and $msg contains "stats" then {
+if $programname == "rngd" then {
 	stop
 }
 EOF
