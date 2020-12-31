@@ -9,6 +9,8 @@ the following features are included:
 * set the timezone
 * set the wifi country code
 * Optional:
+** Mount /tmp as tmpfs
+** minimize syslog messages
 ** uninstall the avahi daemon
 ** Power Savings:
 *** disable Pi's usbhub
@@ -25,6 +27,8 @@ the following features are included:
 you have to configure all your stuff at the top in `set the variables` section of the script. Just read the inline comments.
 
 ```bash
+# set the variables
+
 ## Pi's setup configuration
 # Pi User new Password
 PIPASSWORD="YOURPASS1234"
@@ -48,6 +52,12 @@ BTDISABLE="False"
 HDMIDISABLE="False"
 # Disable Soundcard
 SOUNDDISABLE="False"
+# Minimizie Syslog Messages a little bit
+SYSLOGBLOCK="False"
+# /tmp as tmpfs mounting
+TMPTMPFS="False"
+# tmpfs Size (recommended: 32M for pi zero / 128M for Pi 4)
+TMPFSSIZE="32M"
 
 ## Interface Configuration
 ## 0 Enable / 1 Disable 
@@ -56,7 +66,7 @@ I2CBUS="1"
 # spi bus
 SPIBUS="1"
 # one wire bus
-ONEWIRE="0"
+ONEWIRE="1"
 # Raspberry Pi's camera module
 CAMERA="1"
 ```
