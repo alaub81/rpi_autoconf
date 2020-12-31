@@ -9,19 +9,19 @@ the following features are included:
 * set the timezone
 * set the wifi country code
 * Optional:
-** Mount /tmp as tmpfs
-** minimize syslog messages
-** uninstall the avahi daemon
-** Power Savings:
-*** disable Pi's usbhub
-*** disable Bluetooth and uninstallation of the bluez tools
-*** disable hdmi port
-*** disable sound daemon
-** enable / disable RPI's interfaces
-*** i2c
-*** spi
-*** onewire
-*** camera
+  * Mount /tmp as tmpfs
+  * minimize syslog messages
+  * uninstall the avahi daemon
+  * Power Savings:
+    * disable Pi's usbhub
+    * disable Bluetooth and uninstallation of the bluez tools
+    * disable hdmi port
+    * disable sound daemon
+  * enable / disable RPI's interfaces
+    * i2c
+    * spi
+    * onewire
+    * camera
 
 ## Configuration
 you have to configure all your stuff at the top in `set the variables` section of the script. Just read the inline comments.
