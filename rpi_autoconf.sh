@@ -33,6 +33,8 @@ WIFICOUNTRY="DE"
 TIMEZONE="Europe/Berlin"
 
 ## True or False
+# Disable Swap File (be carefull with that!)
+SWAPDISABLE="False"
 # Deinstallation of the avahi Daemon
 AVAHIUNINSTALL="False"
 # Deactivate USB Hub to save power (not working on Pi zero)
@@ -77,6 +79,10 @@ sudo apt update
 # Backup config.txt
 sudo cp /boot/config.txt /boot/config.txt.bak 
 
+# disable swap file
+if [ $SWAPDISABLE == "True" ]; then
+	sudo systemctl disable dphys-swapfile
+fi
 # Avahi deinstall
 if [ $AVAHIUNINSTALL == "True" ]; then
 	sudo apt -y --auto-remove purge avahi-daemon
