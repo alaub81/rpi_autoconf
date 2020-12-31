@@ -1,5 +1,5 @@
 # rpi_autoconf
-This little bash script helps to setup a Raspberry Pi OS. I use it to deploy my Raspberry Pi's a bit faster then doing all the stuff on each Pi manualy. Feel free to add your own needed features and let me know about it, so this script could grow.
+This little bash script helps to setup a Raspberry Pi OS. I use it to deploy my Raspberry Pi's a bit faster then doing all the stuff on each Pi manually. Feel free to add your own needed features and let me know about it, so this script could grow.
 
 ## Features
 the following features are included:
