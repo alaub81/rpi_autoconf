@@ -124,15 +124,15 @@ if [ $SYSLOGBLOCK == "True" ]; then
 	sudo sed -i 's/^\t/#\t/g' /etc/rsyslog.conf
 	sudo tee -a /etc/rsyslog.d/01-blocklist.conf <<EOF
 # Cronjob-Spam umleiten
-if $msg contains "pam_unix(cron:session):" then {
+if \$msg contains "pam_unix(cron:session):" then {
 	stop
 }
 # SSH Login without string
-if $msg contains "Did not receive identification string from" then {
+if \$msg contains "Did not receive identification string from" then {
 	stop
 }
 # rngd stop logging
-if $programname == "rngd" then {
+if \$programname == "rngd" then {
 	stop
 }
 EOF
