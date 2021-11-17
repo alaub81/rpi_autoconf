@@ -159,6 +159,6 @@ sudo apt purge --autoremove -y htop nfs-common ntfs-3g python
 sudo apt dist-upgrade -y
 
 # last, do a reboot
-echo -e "\n\n#########################\n\nAll done!!!\nreconnect with:\n# ssh root@$PIHOSTNAME"
+echo -e "\n\n#########################\n\nAll done!!!\nPi is now rebooting, wait a few moments...\n\nafter reboot reconnect with:\n# ssh root@$PIHOSTNAME"
 sleep 3
 sudo reboot
