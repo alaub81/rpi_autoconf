@@ -21,16 +21,8 @@ export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # set the variables
 
 ## Pi's setup configuration
-# Pi User new Password
-PIPASSWORD="YOURPASS1234"
 # Root User new Password
 ROOTPASSWORD="YOURPASS1234"
-# Raspberry Pi's hostname
-PIHOSTNAME="YOURRASPI"
-# the wifi Country
-WIFICOUNTRY="DE"
-# your Raspberry Pi's timezone
-TIMEZONE="Europe/Berlin"
 
 ## True or False
 # Disable Swap File (be carefull with that!)
@@ -65,17 +57,18 @@ CAMERA="1"
 
 
 ### Do the stuff
-# Change the pi User Password
-echo -e "$PIPASSWORD\n$PIPASSWORD" | sudo passwd pi
+# Update package lists
+sudo apt update
+# Install Updates
+sudo apt dist-upgrade -y
+
 # set the root password
 echo -e "$ROOTPASSWORD\n$ROOTPASSWORD" | sudo passwd
 # enable SSH Root Login
-echo -e "\n# Enable Root SSH Login\nPermitRootLogin yes" | sudo tee -a /etc/ssh/sshd_config
+echo -e "\n# Enable Root SSH Login\nPermitRootLogin yes" | sudo tee -a /etc/ssh/sshd_config.d/permitrootlogin.conf
 sudo systemctl restart ssh
 # create autostart cron file
 echo -e "# Stuff which will running on System Startup" | sudo tee -a /etc/cron.d/autostart
-# Update package lists
-sudo apt update
 # Backup config.txt
 sudo cp /boot/config.txt /boot/config.txt.bak 
 
@@ -140,9 +133,6 @@ fi
 
 
 # setup raspberry pi
-sudo raspi-config nonint do_hostname $PIHOSTNAME
-sudo raspi-config nonint do_wifi_country $WIFICOUNTRY
-sudo timedatectl set-timezone $TIMEZONE
 sudo raspi-config nonint do_i2c $I2CBUS
 sudo raspi-config nonint do_spi $SPIBUS
 sudo raspi-config nonint do_onewire $ONEWIRE
@@ -150,15 +140,13 @@ sudo raspi-config nonint do_camera $CAMERA
 
 # Include ASCII Art on login
 sudo apt install figlet -y
-figlet $PIHOSTNAME | sudo tee -a /etc/motd /etc/motd.tail
+figlet $(hostname -s) | sudo tee -a /etc/motd /etc/motd.tail
 
 # cleanup Raspberry Pi OS
-sudo apt purge --autoremove -y htop nfs-common ntfs-3g python
-
-# Install Updates
-sudo apt dist-upgrade -y
+sudo apt purge --autoremove -y htop nfs-common ntfs-3g
+sudo apt autoremove -y
 
 # last, do a reboot
-echo -e "\n\n#########################\n\nAll done!!!\nPi is now rebooting, wait a few moments...\n\nafter reboot reconnect with:\n# ssh root@$PIHOSTNAME"
+echo -e "\n\n#########################\n\nAll done...\nPi is now rebooting, wait a few moments...\n\nafter reboot reconnect with:\n# ssh root@$(hostname)"
 sleep 3
 sudo reboot
