@@ -34,24 +34,26 @@ you have to configure all your stuff at the top in `set the variables` section o
 ROOTPASSWORD="YOURPASS1234"
 
 ## True or False
+# Disable IPv6 systemwide
+IPV6DISABLE="False"
 # Disable Swap File (be carefull with that!)
 SWAPDISABLE="False"
 # Deinstallation of the avahi Daemon
 AVAHIUNINSTALL="False"
 # Deactivate USB Hub to save power (not working on Pi zero)
 USBDISABLE="False"
+# Disable Wifi if you are using LAN
+WIFIDISABLE="False"
 # Disable Bluetooth to save power
 BTDISABLE="False"
 # Disable HDMI to save power
 HDMIDISABLE="False"
 # Disable Soundcard
 SOUNDDISABLE="False"
-# Minimizie Syslog Messages a little bit
-SYSLOGBLOCK="False"
 # /tmp as tmpfs mounting
 TMPTMPFS="False"
-# tmpfs Size (recommended: 16M for pi zero / 64M for Pi 4)
-TMPFSSIZE="16M"
+# tmpfs Size (recommended a minimum of 32M)
+TMPFSSIZE="32M"
 
 ## Interface Configuration
 ## 0 Enable / 1 Disable 
@@ -66,5 +68,7 @@ CAMERA="1"
 ```
 
 ## More Informations
-More Informations on the script can be found here (sorry it's german): 
+
+More Informations on the script can be found here (sorry it's german):
+
 * https://www.laub-home.de/wiki/Raspberry_Pi_OS_Installation#Raspberry_Pi_OS_via_Skript_konfigurieren
